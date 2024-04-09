@@ -28,6 +28,8 @@ display.lcd_display_string("- Display Line 2", 2)  # Write line of text to the s
 display.lcd_clear()                                # Clears the lcd and sets cursor to home.
 ```
 
+![ASCII Chars with the lcdrw1063 Paython library](docs/ASCIIChars.png)
+
 ## Printing custom characters on the display.
 
 ```python
@@ -45,6 +47,8 @@ display.lcd_display_buffer([0,1,2,3,4,5,6,7,0,1,2,3,4,5,6,7,0,1,2,3], 2) # Print
 display.lcd_clear()                                # Clears the lcd and sets cursor to home.
 display.lcd_set_display_off                        # Switch-off the display. Doesn't affect to backlight
 ```
+
+![Custom Chars with the lcdrw1063 Paython library](docs/CustomChars.png)
 
 ---
 
