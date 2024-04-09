@@ -23,3 +23,4 @@ pip install smbus2
 * Add digital port for switch the LCD back light.
 * Add configuration of number of columns and rows
 * Helper function for setting cursor at specifies row and column
+* Encapsulate private methods
