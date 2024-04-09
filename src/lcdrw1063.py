@@ -3,8 +3,6 @@ Python Driver for the RW1063, LCD driver & controller
 https://www.orientdisplay.com/wp-content/uploads/2020/07/RW1063.pdf
 
 """
-
-
 from smbus2 import SMBus
 from RPi.GPIO import RPI_REVISION
 from time import sleep
@@ -22,7 +20,7 @@ MIDAS_20x4 = 0
 # Four 7-bit slave addresses (0111100, 0111101, 0111110 and 0111111) are reserved for the RW1063
 LCD_ADDRESS_3C = 0b_0011_1100 # 0x3C
 LCD_ADDRESS_3D = 0b_0011_1101 # 0x3D
-LCD_ADDRESS_3D = 0b_0011_1110 # 0x3E
+LCD_ADDRESS_3E = 0b_0011_1110 # 0x3E
 LCD_ADDRESS_3F = 0b_0011_1111 # 0x3F
 
 # 2 x 8 bit registers, DR - Data Register, IR - Instruction Register
@@ -69,11 +67,6 @@ LCD_LINE1_BASE_ADDRESS= 0x80 # 0000 0000 DDRAM Address 0x00
 LCD_LINE2_BASE_ADDRESS= 0xC0 # 0100 0000 DDRAM Address 0x40
 LCD_LINE3_BASE_ADDRESS= 0x94 # 0001 0100 DDRAM Address 0x14
 LCD_LINE4_BASE_ADDRESS= 0xD4 # 0101 0100 DDRAM Address 0x54
-
-
-
-lcd_address = LCD_ADDRESS_3C
-bus = SMBus(1)
 
 class I2CDevice:
     def __init__(self, addr=None, addr_default=LCD_ADDRESS_3C, busNumber=BUS_NUMBER):
@@ -229,13 +222,12 @@ class Lcd:
         DDRAM address set, CGRAM address set. RAM set instruction can also determine the AC direction to RAM. 
         After write operation, the address is automatically increased/decreased by 1, according to the entry mode. 
         """
-        self.lcd_send_data_write_command( [eightBitData & 0b_1111_1111])
-        
+        self.lcd_send_data_write_command( [eightBitData & 0b_1111_1111])        
         
        
     def lcd_display_string(self, string, line):
         """
-        Display String in predefined line 1 to 4
+        Display String in predefined lines, 1 to 4
         """
         if line == 1:
             self.lcd_set_ddram_address(LCD_LINE1_BASE_ADDRESS)
@@ -250,7 +242,7 @@ class Lcd:
         
     def lcd_display_buffer(self, buffer, line):
         """
-        Display String in predefined line 1 to 4
+        Display byte buffer in predefined lines, 1 to 4
         """
         if line == 1:
             self.lcd_set_ddram_address(LCD_LINE1_BASE_ADDRESS)
@@ -273,6 +265,10 @@ class Lcd:
         
 
 class CustomCharacters:
+    """
+    Instantiate for generating new CustomCharacters
+    By default vertical level bar
+    """
     def __init__(self, lcd):
         self.lcd = lcd
         # Data for custom character #1. Code {0x00}.
@@ -347,17 +343,15 @@ class CustomCharacters:
                             "11111",
                             "11111",
                             "11111"]
-
-    # load custom character data to CG RAM for later use 
-    # These custom characters can be used in printing of extended string with a
-    # placeholder with desired character codes: 1st - {0x00}, 2nd - {0x01}, 3rd - {0x02},
-    # 4th - {0x03}, 5th - {0x04}, 6th - {0x05}, 7th - {0x06} and 8th - {0x07}.
+  
     def load_custom_characters_data(self):
+        """
+        load custom character data to CG RAM for later use
+        """
         self.chars_list = [self.char_1_data, self.char_2_data, self.char_3_data,
                            self.char_4_data, self.char_5_data, self.char_6_data,
                            self.char_7_data, self.char_8_data]
         
-
         for char_num in range(8):
             self.lcd.lcd_set_cgram_address( 0x08 * (char_num))
             for line_num in range(8):
@@ -365,50 +359,3 @@ class CustomCharacters:
                 binary_str_cmd = "0b000{0}".format(line)
                 self.lcd.lcd_write_ram_data(int(binary_str_cmd, 2))
                 
-# display = Lcd()
-# custom = CustomCharacters(display)
-# 
-# display.lcd_display_string("- Display Line 1", 1)  # Write line of text to first line of display
-# sleep(1)
-# display.lcd_display_string("- Display Line 2", 2)  # Write line of text to first line of display
-# sleep(1)
-# display.lcd_display_string("- Display Line 3", 3)  # Write line of text to first line of display
-# sleep(1)
-# display.lcd_display_string("- Display Line 4", 4)  # Write line of text to first line of display
-# sleep(1)
-# sleep(2)
-# custom.load_custom_characters_data()
-# display.lcd_clear_display()
-# 
-# display.lcd_display_buffer([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 1)
-# display.lcd_display_buffer([255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255], 3)
-# display.lcd_display_buffer([255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255], 4)
-# while True:
-#     display.lcd_display_buffer([0,1,2,3,4,5,6,7,0,1,2,3,4,5,6,7,0,1,2,3], 2)
-#     sleep(.05)                                               
-#     display.lcd_display_buffer([1,2,3,4,5,6,7,6,1,2,3,4,5,6,7,6,1,2,3,4], 2)
-#     sleep(.05)                                                
-#     display.lcd_display_buffer([2,3,4,5,6,7,6,5,2,3,4,5,6,7,6,5,2,3,4,5], 2)
-#     sleep(.05)                                              
-#     display.lcd_display_buffer([3,4,5,6,7,6,5,4,3,4,5,6,7,6,5,4,3,4,5,6], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([4,5,6,7,6,5,4,3,4,5,6,7,6,5,4,3,4,5,6,7], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([5,6,7,6,5,4,3,2,5,6,7,6,5,4,3,2,5,6,7,6], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([6,7,6,5,4,3,2,1,6,7,6,5,4,3,2,1,6,7,6,5], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([7,6,5,4,3,2,1,0,7,6,5,4,3,2,1,0,7,6,5,4], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([6,5,4,3,2,1,0,1,6,5,4,3,2,1,0,1,6,5,4,3], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([5,4,3,2,1,0,1,2,5,4,3,2,1,0,1,2,5,4,3,2], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([4,3,2,1,0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,1], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([3,2,1,0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,1,0], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([2,1,0,1,2,3,4,5,2,1,0,1,2,3,4,5,2,1,0,1], 2)
-#     sleep(.05)                                 
-#     display.lcd_display_buffer([1,0,1,2,3,4,5,6,1,0,1,2,3,4,5,6,1,0,1,2], 2)
-# 
