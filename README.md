@@ -19,8 +19,8 @@ pip install smbus2
 
 # TODO
 
-* Add digital port for controlling the Chip Select (CS) state from the library
-* Add digital port for switch the LCD back light.
-* Add configuration of number of columns and rows
-* Helper function for setting cursor at specifies row and column
-* Encapsulate private methods
+* Add digital port for controlling the Chip Select (CS) state from the library.
+* Add a digital port to turn the LCD backlight on/off.
+* Add configuration of number of columns and rows.
+* Helper function for setting cursor at specifies row and column.
+* Encapsulate private methods.
