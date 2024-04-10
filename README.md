@@ -8,6 +8,8 @@ Key features include:
 
 Tested with the MC42005A6W-SPTLYI-V2 20 columns x 4 rows, 5mm character height transflective LCD display module from MIDAS Displays.
 
+RW1063 LCD Driver Datasheet: http://www.rockworks.com.tw/homepage/html/RW1063.html
+
 ---
 
 # Dependencies
