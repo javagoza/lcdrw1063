@@ -66,11 +66,11 @@ display.lcd_display_buffer(buffer, 1)
 
 while True:
     for i in range(100) :
-        for j in range (i / 5) :
+        for j in range (int(i / 5)) :
             buffer[j] = 5
         if (i % 5) > 0:
-            buffer[i/5] = i % 5
-        for k in range (i / 5 + 1, 20) :
+            buffer[int(i/5)] = i % 5
+        for k in range (int(i / 5) + 1, 20) :
             buffer[k] = 0
         display.lcd_display_buffer(buffer, 1)
-        sleep(.05) 
+        # sleep(.01) 
