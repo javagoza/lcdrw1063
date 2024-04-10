@@ -1,6 +1,8 @@
 """
 Python Driver for the RW1063, LCD driver & controller.
-https://www.orientdisplay.com/wp-content/uploads/2020/07/RW1063.pdf
+Tested with the MC42005A6W-SPTLYI-V2 20 columns x 4 rows, 5mm
+character height transflective LCD display module from MIDAS Displays. 
+http://www.rockworks.com.tw/homepage/html/RW1063.html
 """
 
 from smbus2 import SMBus
