@@ -6,6 +6,8 @@ Key features include:
 - Easy-to-use functions for display manipulation.
 - Compatible solely with i2c bus communication and 8-bit write commands.
 
+Tested with the MC42005A6W-SPTLYI-V2 20 columns x 4 rows, 5mm character height transflective LCD display module from MIDAS Displays.
+
 ---
 
 # Dependencies
