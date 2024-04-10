@@ -7,7 +7,7 @@ from time import sleep
 display = LCD.Lcd()
 custom = LCD.CustomCharacters(display)
 
-custom.char_1_data = ["10001",
+
 # Data for custom character #1. Code {0x00}.
 custom.char_1_data = ["11111",
                       "00000",
@@ -68,8 +68,8 @@ while True:
     for i in range(100) :
         for j in range (i / 5) :
             buffer[j] = 5
-        if (i mod 5) > 0:
-            buffer[i/5] = i mod 5
+        if (i % 5) > 0:
+            buffer[i/5] = i % 5
         for k in range (i / 5 + 1, 20) :
             buffer[k] = 0
         display.lcd_display_buffer(buffer, 1)
