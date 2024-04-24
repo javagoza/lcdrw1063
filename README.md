@@ -26,6 +26,8 @@ pip install smbus2
 ## Printing ASCII character strings on the LCD display.
 
 ```python
+import lcdrw1063 as LCD
+
 display = LCD.Lcd()                                # Instanciate the LCD driver
 
 display.lcd_display_string("- Display Line 2", 2)  # Write line of text to the second line of the display
@@ -37,6 +39,8 @@ display.lcd_clear()                                # Clears the lcd and sets cur
 ## Printing custom characters on the display.
 
 ```python
+import lcdrw1063 as LCD
+
 display = LCD.Lcd()                                # Instanciate the LCD driver
 custom = LCD.CustomCharacters(display)             # Instantiate a CustomCharacteres generator
 
